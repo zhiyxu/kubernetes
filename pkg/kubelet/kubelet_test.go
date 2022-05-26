@@ -351,20 +351,21 @@ func newTestKubeletWithImageList(
 		NewInitializedVolumePluginMgr(kubelet, kubelet.secretManager, kubelet.configMapManager, token.NewManager(kubelet.kubeClient), allPlugins, prober)
 	require.NoError(t, err, "Failed to initialize VolumePluginMgr")
 
-	kubelet.volumeManager = kubeletvolume.NewVolumeManager(
-		controllerAttachDetachEnabled,
-		kubelet.nodeName,
-		kubelet.podManager,
-		kubelet.podWorkers,
-		fakeKubeClient,
-		kubelet.volumePluginMgr,
-		fakeRuntime,
-		kubelet.mounter,
-		kubelet.hostutil,
-		kubelet.getPodsDir(),
-		kubelet.recorder,
-		false, /* keepTerminatedPodVolumes */
-		volumetest.NewBlockVolumePathHandler())
+	// kubelet.volumeManager = kubeletvolume.NewVolumeManager(
+	// 	controllerAttachDetachEnabled,
+	// 	kubelet.nodeName,
+	// 	kubelet.podManager,
+	// 	kubelet.podWorkers,
+	// 	fakeKubeClient,
+	// 	kubelet.volumePluginMgr,
+	// 	fakeRuntime,
+	// 	kubelet.mounter,
+	// 	kubelet.hostutil,
+	// 	kubelet.getPodsDir(),
+	// 	kubelet.recorder,
+	// 	false, /* keepTerminatedPodVolumes */
+	// 	volumetest.NewBlockVolumePathHandler())
+	kubelet.volumeManager = kubeletvolume.NewFakeVolumeManager(nil)
 
 	kubelet.pluginManager = pluginmanager.NewPluginManager(
 		kubelet.getPluginsRegistrationDir(), /* sockDir */
