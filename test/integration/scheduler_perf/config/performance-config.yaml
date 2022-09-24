@@ -1,3 +1,21 @@
+- name: SchedulingGPUShare
+  defaultPodTemplatePath: config/pod-gpushare.yaml
+  workloadTemplate:
+  - opcode: createNodes
+    countParam: $initNodes
+    nodeTemplatePath: config/node-gpushare.yaml
+  - opcode: createPods
+    countParam: $initPods
+  - opcode: createPods
+    countParam: $measurePods
+    collectMetrics: true
+  workloads:
+  - name: 5000Nodes
+    params:
+      initNodes: 5000
+      initPods: 5000
+      measurePods: 1000
+
 - name: SchedulingBasic
   defaultPodTemplatePath: config/pod-default.yaml
   workloadTemplate:
